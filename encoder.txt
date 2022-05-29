@@ -1,0 +1,42 @@
+#Practical 8
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+from keras.models import Model
+from keras.layers import Dense, Input
+import tensorflow as tf
+def plot_autoencoder_outputs(autoencoder, n, dims):
+    decoded_imgs = autoencoder.predict(x_test)
+
+    # number of example digits to show
+    n = 5
+    plt.figure(figsize=(10, 4.5))
+    for i in range(n):
+        # plot original image
+        ax = plt.subplot(2, n, i + 1)
+        plt.imshow(x_test[i].reshape(*dims))
+       
+        # plot reconstruction 
+        ax = plt.subplot(2, n, i + 1 + n)
+        plt.imshow(decoded_imgs[i].reshape(*dims))
+    plt.show()
+(x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data("C:\\Users\\juchavan\\Desktop\\MSCIT\\DL\\mnist_test.csv")
+x_train = x_train.astype('float32') / 255.0
+x_test = x_test.astype('float32') / 255.0
+x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
+x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
+print(x_train.shape)
+print(x_test.shape)
+input_size = 784
+hidden_size = 128
+code_size = 32
+#input * hidden1 * code * hidden2 * output
+input_img = Input(shape=(input_size,))
+hidden_1 = Dense(hidden_size, activation='relu')(input_img)
+code = Dense(code_size, activation='relu')(hidden_1)
+hidden_2 = Dense(hidden_size, activation='relu')(code)
+output_img = Dense(input_size, activation='sigmoid')(hidden_2)
+autoencoder = Model(input_img, output_img)
+autoencoder.compile(optimizer='adam', loss='binary_crossentropy',metrics='accuracy')
+autoencoder.fit(x_train, x_train, epochs=1)
+plot_autoencoder_outputs(autoencoder, 5, (28, 28))

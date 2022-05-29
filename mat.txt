@@ -1,0 +1,17 @@
+import tensorflow as tf 
+import numpy as np 
+from numpy.linalg import eig
+#Creating Matrix A & B 
+A=np.arange(1,10).reshape(3,3)
+B=np.arange(11,20).reshape(3,3) 
+print("Matrix A: ","\n",A,"\n","Matrix B: ","\n",B) 
+#Multiplying Matrix A and C by using numpy
+C=np.dot(A,B)
+print("Matrix C:","\n",C)
+#Multiplying Matrix A and C by using tensorflow
+C=tf.matmul(A,B)
+print("Matrix C:","\n",C)
+#Eigen Values and Eigen Vectors
+eigen_value_C, eigen_vector_C = eig(C)
+print("Eigen Values: ","\n",eigen_value_C)
+print("Eigen Vector: ","\n",eigen_vector_C)
