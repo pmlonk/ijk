@@ -28,7 +28,7 @@ def display(array1, array2):
         plt.imshow(image2.reshape(28, 28))
     plt.show()
 #Prepare the Data Since we only need images from the dataset to encode and decode, we won't use the labels.
-(train_data, _), (test_data, _) =tf.keras.datasets.mnist.load_data("C:\\Users\\juchavan\\Desktop\\MSCIT\\DL\\mnist_test.csv")
+(train_data, _), (test_data, _) =tf.keras.datasets.mnist.load_data("")
 # Normalize and reshape the data
 train_data = preprocess(train_data)
 test_data = preprocess(test_data)
